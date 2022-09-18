@@ -116,25 +116,83 @@ LIMIT 1;
 -- 7. What is the average time in each stage? (description, average)
 
 SELECT
-    r.team AS,
+    s.description,
    AVG (c.time) AS average
-FROM stage 
-JOIN classification c ON c.ref = r.ref
+FROM stage s
+JOIN classification c ON c.num = s.num
 GROUP BY 1;
 
 /* Result
 
-    team     |      total      
--------------+-----------------
- Os Melhores | 01:46:52.166667
- Os Velozes  | 01:46:12.166667
- Os Rápidos  | 01:45:23.333333 */
+   description    |     average     
+------------------+-----------------
+ Aveiro - Coimbra | 01:16:46.888889
+ Porto - Aveiro   | 01:25:32.111111
+ Coimbra - Lisboa | 02:35:55.333333*/
 
 -- 8. What stage, or stages, had the smaller average time? (description)
+SELECT smaller.description
+FROM (
+    SELECT
+        s.description,
+        AVG (c.time) AS average
+    FROM stage s
+    JOIN classification c ON c.num = s.num
+    GROUP BY 1
+    ORDER BY 2) AS smaller
+LIMIT 1;
 
+/* Result
+   description    
+------------------
+ Aveiro - Coimbra */
 
 -- 9. What was the time difference between the first and second riders in each stage? (description, difference)
+
+WITH firstplace AS (
+    SELECT num, position as first, time as ftime
+    FROM classification
+    WHERE position = 1
+), secondplace AS (
+    SELECT num, position as second, time as stime
+    FROM classification
+    WHERE position = 2
+)
+SELECT description,(ftime - stime) AS difference
+FROM firstplace f
+JOIN secondplace s ON f.num = s.num
+JOIN stage ss ON ss.num = s.num;
+
+/* Result
+
+   description    | difference 
+------------------+------------
+ Porto - Aveiro   | -00:00:06
+ Aveiro - Coimbra | -00:00:29
+ Coimbra - Lisboa | -00:00:01 */
 
 
 -- 10. What stage had the biggest time difference between the first and second rider to finish it, 
 --     what rider won that stage and with how much lead time. (description, name, difference).
+
+WITH firstplace AS (
+    SELECT num, position as first, time as ftime
+    FROM classification
+    WHERE position = 1
+), secondplace AS (
+    SELECT num, position as second, time as stime
+    FROM classification
+    WHERE position = 2
+)
+SELECT description,(ftime - stime) AS difference
+FROM firstplace f
+JOIN secondplace s ON f.num = s.num
+JOIN stage ss ON ss.num = s.num
+ORDER BY 2
+LIMIT 1;
+
+/* Result
+
+   description    | difference 
+------------------+------------
+ Aveiro - Coimbra | -00:00:29 */
