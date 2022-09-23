@@ -105,7 +105,7 @@ ORDER BY duration DESC, flightcod;
 SELECT 
     origin.flightcod AS flightcod1,
     destin.flightcod AS flightcod2,
-    airport.name AS intermediate_airport_code
+    airport.airportcod AS intermediate_airport_code
 FROM flight AS origin
 JOIN (SELECT * FROM flight WHERE toairportcod = 12) 
 AS destin ON origin.toairportcod = destin.fromairportcod
@@ -222,7 +222,7 @@ SELECT
     version,
     COUNT(*) AS number
 FROM model m
-JOIN flight f ON m.modelcod = f.planecod
+JOIN plane USING (modelcod)
 GROUP BY 1,2
 ORDER BY 3 DESC,1,2;
 
@@ -245,7 +245,7 @@ SELECT
     version,
     COUNT(*) AS number
 FROM model m
-JOIN flight f ON m.modelcod = f.planecod
+JOIN plane f ON m.modelcod = f.modelcod
 GROUP BY 1,2
 ORDER BY 3,1,2;
 
