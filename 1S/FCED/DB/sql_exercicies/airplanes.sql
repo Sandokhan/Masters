@@ -230,11 +230,10 @@ ORDER BY 3 DESC,1,2;
 
   make   | version | number 
 ---------+---------+--------
- Airbus  | A340    |      3
  Boeing  | 747     |      3
- Boeing  | 737     |      2
- Airbus  | A300    |      1
- Douglas | DC-10   |      1  */
+ Douglas | DC-10   |      3
+ Airbus  | A300    |      2
+ Airbus  | A340    |      1 */
 
 -- 14. How many actual planes are there for each plane model? 
 -- Sort the result so that the least frequent models appear last (make, version, number).
@@ -252,8 +251,7 @@ ORDER BY 3,1,2;
 /* Result
   make   | version | number 
 ---------+---------+--------
- Airbus  | A300    |      1
- Douglas | DC-10   |      1
- Boeing  | 737     |      2
- Airbus  | A340    |      3
- Boeing  | 747     |      3 */
+ Airbus  | A340    |      1
+ Airbus  | A300    |      2
+ Boeing  | 747     |      3
+ Douglas | DC-10   |      3 */
