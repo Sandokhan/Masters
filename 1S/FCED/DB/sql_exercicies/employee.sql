@@ -91,6 +91,8 @@ JOIN works w ON e.id = w.id_emp
 GROUP BY e.name;
 
 -- 11. List all employees and their superiors. (employee_name, superior_name)
+
+
 -- 12. List all employees and their superiors. If the employee does not have a superior list it anyway with a NULL superior. 
 -- (employee_name, superior_name)
 -- 13. What is the largest salary in each department? (department_name, salary)
@@ -99,14 +101,32 @@ GROUP BY e.name;
 -- 16. What is the salary difference between each employee and his superior? (employee_name, superior_name, difference)
 -- 17. What is the biggest difference between the salary of an employee and his superior? (difference)
 -- 18. List the departments where the average salary is more than 1300 euros. (department_name)
+SELECT name FROM
+department
+WHERE id IN (
+SELECT id_dep
+FROM employee
+GROUP BY 1
+HAVING AVG(salary) > 1300);
 -- 19. List the employees who work on projects external to their department. (employee_name)
--- 20. List the employees who work on projects internal to their department. (employee_name)
 
 SELECT
-DISTINCT e.name
+    e.name
 FROM employee e
 JOIN works w ON w.id_emp = e.id
-JOIN project p USING (id_dep);
+JOIN project p ON p.id = w.id_pro
+WHERE p.id_dep <> e.id_dep
+GROUP BY e.id
+-- 20. List the employees who work on projects internal to their department. (employee_name)
+
+
+SELECT employee.name
+FROM employee JOIN
+     works ON id_emp = id JOIN
+     project ON id_pro = project.id
+WHERE employee.id_dep = project.id_dep
+GROUP BY employee.id
+ORDER BY 1;
 
 -- 21. List the employees who only work on projects internal to their department. (employee_name)
 
