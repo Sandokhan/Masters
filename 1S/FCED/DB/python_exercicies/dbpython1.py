@@ -1,7 +1,7 @@
 import psycopg2 
 
 con = psycopg2.connect(
-  database="fced_rhaydrick_tavares",             # your database is the same as your username
+  database="sandokhan",             # your database is the same as your username
   user="fced_rhaydrick_tavares",                 # your username
   password="Rhaydrick@0358",             # your password
   host="dbm.fe.up.pt",             # the database host

@@ -12,7 +12,10 @@ con = psycopg2.connect(
   port='5433'  # use the schema you want to connect to
 )
 
+# with open('employee.csv') as f:
+#     cur = con.cursor()
+#     cur.copy_from(f, "employee", sep=",")
+#     con.commit()
+
 with open('employee.csv') as f:
-    cur = con.cursor()
-    cur.copy_from(f, "employee", sep=",")
-    con.commit()
+    f.re
