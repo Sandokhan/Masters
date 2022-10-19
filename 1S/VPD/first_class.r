@@ -4,6 +4,8 @@ library(infotheo) ## a useful package
 library(arules) # a package that also has a discretize function
 library(discretization)
 library(funModeling)
+library (stringdist)
+library(fuzzyjoin)
 
 # Nominal and ordinal data in R
 expenses <- 
@@ -45,3 +47,21 @@ chiM(data.frame(ds) , alpha = 0.1)
 
 ## gain ratio discretization
 discretize_rgr(bank$age, bank$pep)
+
+# Edit distance in R
+stringdist("vintner" , "writers")
+stringdist("Jose", "Joaquim")
+stringdist("kitten", "sitting")
+
+# Fuzzy join in R
+
+organization <- c("John Doe Inc", "Saint Rogers", "Sally Harper Center")
+sales <- c(300,400,500)
+ds_sales <- data.frame(organization, sales)
+
+organization <- c("Sally Harper Cntr", "John Doe Incorporated", "St. Rogers")
+num_cust <- c(10, 50, 100)
+ds_cust <- data.frame(organization, num_cust)
+
+stringdist_inner_join( ds_sales , ds_cust, by = c('organization' = 'organization'), max_dist = 5)
+stringdist_left_join( ds_sales , ds_cust, by = c('organization' = 'organization'), max_dist = 5)
